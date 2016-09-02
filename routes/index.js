@@ -9,35 +9,57 @@ pg.defaults.ssl = true;
 pg.connect(DATABASE_URL, (err, client) => {
     if (err) throw err;
     console.log('Connected to postgres! Getting tables...');
-    clientRet = client;
-});
 
-
-router.get('/', (req, res) =>{
+    router.get('/', (req, res) =>{
   res.render('index', { title: 'Express' });
 });
 
+     router.get('/new', (req, res) =>{
+        res.render('index', { title: 'Express' });
+    });
+
+    router.get('/:index', (req, res) =>{
+        client
+            .query(`SELECT
+                        "Index",
+                        "URL"
+                    FROM
+                        public."urlsToLitleUrl"
+                    WHERE
+                       "Index" = ${req.params.index};`)
+            .on('row', row =>{
+                    console.log('dentro do redirect',row.URL);
+                    res.redirect(row.URL);
+                    }
+
+               );
 
 
-router.get('/new/:longUrl',(req, res)=> {
-    const fullUrl = req.get('host');
-    const longUrl = req.params.longUrl;
-   //console.log(clientRet)
-    clientRet
-        .query(`SELECT
-                    "Index",
-                    "URL"
-                FROM
-                    public."urlsToLitleUrl"
-                WHERE
-                   "URL" = '${longUrl}';`)
-        .on('row', row =>{
-                console.log('dentro do check',row);
-                res.end(`{ "original_url":"${longUrl}", "short_url":"${fullUrl}/${row.Index}" }`);
-                }
+    });
 
-           );
 
+
+    router.get('/new/:longUrl',(req, res)=> {
+        const fullUrl = req.get('host');
+        const longUrl = req.params.longUrl;
+        client
+            .query(`SELECT
+                        "Index",
+                        "URL"
+                    FROM
+                        public."urlsToLitleUrl"
+                    WHERE
+                       "URL" = '${longUrl}';`)
+            .on('row', row =>{
+
+                    console.log('dentro do check',row);
+                   res.end(`{ "original_url":"${longUrl}", "short_url":"${fullUrl}/${row.Index}" }`);
+                    }
+
+               );
+
+
+    });
 
 });
 
