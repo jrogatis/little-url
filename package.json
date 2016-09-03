@@ -14,7 +14,8 @@
     "mongo": "^0.1.0",
     "morgan": "^1.6.1",
     "pg": "6.1.0",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "validator": "^5.6.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
