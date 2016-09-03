@@ -9,7 +9,7 @@ pg.defaults.ssl = true;
 
 pg.connect(DATABASE_URL, (err, client) => {
     if (err) throw err;
-    console.log('Connected to postgres! Getting tables...');
+    //console.log('Connected to postgres! Getting tables...');
 
     router.get('/', (req, res) => {
         res.render('index', {
@@ -33,7 +33,7 @@ pg.connect(DATABASE_URL, (err, client) => {
                     WHERE
                        "Index" = ${req.params.index};`)
             .on('row', row => {
-                    console.log('dentro do redirect', row.URL);
+                    //console.log('dentro do redirect', row.URL);
                     res.redirect(row.URL);
                 }
 
@@ -43,15 +43,15 @@ pg.connect(DATABASE_URL, (err, client) => {
     });
 
     router.get('/new/*', (req, res) => {
-        console.log('passeisim',req.params[0]);
+        //console.log('passeisim',req.params[0]);
         const fullUrl = req.get('host');
         const longUrl = req.params[0];
         let urls = [];
-        console.log(validator.isURL(longUrl, {require_protocol: true}));
+        //console.log(validator.isURL(longUrl, {require_protocol: true}));
         if (!validator.isURL(longUrl, {require_protocol: true})) {
             res.end('its not a valid Url')
         } else {
-            console.log('saco');
+            //console.log('saco');
 
             client
                 .query(`SELECT
@@ -64,13 +64,13 @@ pg.connect(DATABASE_URL, (err, client) => {
                  )
                 .on('row', row => {
 
-                        console.log('dentro do check', row);
+                        //console.log('dentro do check', row);
 
                        urls.push(row);
 
                 })
                 .on('end', () => {
-                    console.log(urls.length)
+                    //console.log(urls.length)
                     if (urls.length > 0) {
                         res.writeHead(200, {
                                 'content-type': 'text/plain'
@@ -92,7 +92,7 @@ pg.connect(DATABASE_URL, (err, client) => {
                                       )
                                     .on('row', row => {
 
-                                            console.log('dentro do check', row);
+                                            //console.log('dentro do check', row);
                                             urls.push(row);
 
                                             })
