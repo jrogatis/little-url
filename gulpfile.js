@@ -2,6 +2,7 @@ var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   plumber = require('gulp-plumber'),
   livereload = require('gulp-livereload'),
+  fontAwesome = require('node-font-awesome'),
   sass = require('gulp-sass');
 
 gulp.task('sass', function () {
